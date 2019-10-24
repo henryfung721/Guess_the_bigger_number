@@ -19,6 +19,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     static int count=0;
+    static int totalmarks=0;
     static int number1=0;
     static int number2=0;
     static boolean button1=false;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 showcongratulations();
             }
             else if((button1==false)&&(button2==true)){
-                //wrong
+                showwrong();
             }
             generatenewnumber();
             count=count+1;
@@ -80,13 +81,26 @@ public class MainActivity extends AppCompatActivity {
             showcongratulations();
         }
         else if((button1==true)&&(button2==false)){
-            //wrong
+            showwrong();
         }
         generatenewnumber();
         count=count+1;
     }
 
+    private void showwrong() {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("sorry");
+        alertDialog.setMessage("you are wrong.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
     private void showcongratulations() {
+        totalmarks=totalmarks+1;
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("Congratulations");
         alertDialog.setMessage("you are right.");
@@ -102,6 +116,12 @@ public class MainActivity extends AppCompatActivity {
     private void generatenewnumber() {
         TextView firstnumber = this.findViewById(R.id.firstnumber);
         TextView secondnumber = this.findViewById(R.id.secondnumber);
+        TextView tried = this.findViewById(R.id.tried);
+        TextView marks = this.findViewById(R.id.marks);
+
+        tried.setText("you have tried"+count+"times");
+        marks.setText("your marks: "+totalmarks);
+
         Random r = new Random();
         number1 = r.nextInt(99);
         number2 = r.nextInt(99);
