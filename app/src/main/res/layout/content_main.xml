@@ -33,10 +33,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tried"
-        android:layout_width="178dp"
-        android:layout_height="95dp"
-        android:text="you have tried 0 times"
+        android:id="@+id/lives"
+        android:layout_width="100dp"
+        android:layout_height="88dp"
+        android:text="your lives: 5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

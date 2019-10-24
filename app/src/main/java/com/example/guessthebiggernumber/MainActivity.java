@@ -18,10 +18,10 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-    static int count=0;
     static int totalmarks=0;
     static int number1=0;
     static int number2=0;
+    static int lives=5;
     static boolean button1=false;
     static boolean button2=false;
 
@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 showwrong();
             }
             generatenewnumber();
-            count=count+1;
     }
     public void button2(View view) {
         if((button1==false)&&(button2==true)){
@@ -84,20 +83,22 @@ public class MainActivity extends AppCompatActivity {
             showwrong();
         }
         generatenewnumber();
-        count=count+1;
     }
 
     private void showwrong() {
-        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-        alertDialog.setTitle("sorry");
-        alertDialog.setMessage("you are wrong.");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+        lives=lives-1;
+        if(lives!=0) {
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("sorry");
+            alertDialog.setMessage("you are wrong.");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
     }
     private void showcongratulations() {
         totalmarks=totalmarks+1;
@@ -116,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
     private void generatenewnumber() {
         TextView firstnumber = this.findViewById(R.id.firstnumber);
         TextView secondnumber = this.findViewById(R.id.secondnumber);
-        TextView tried = this.findViewById(R.id.tried);
+        TextView tried = this.findViewById(R.id.lives);
         TextView marks = this.findViewById(R.id.marks);
 
-        tried.setText("you have tried"+count+"times");
+        tried.setText("your lives"+lives);
         marks.setText("your marks: "+totalmarks);
 
         Random r = new Random();
@@ -136,8 +137,42 @@ public class MainActivity extends AppCompatActivity {
             button1=false;
             button2=true;
         }
+
+        if(lives==0){
+            displaygameover();
+            restart();
+        }
     }
 
+    private void restart() {
+        totalmarks=0;
+        number1=0;
+        number2=0;
+        lives=5;
+        button1=false;
+        button2=false;
+        TextView firstnumber = this.findViewById(R.id.firstnumber);
+        TextView secondnumber = this.findViewById(R.id.secondnumber);
+        TextView tried = this.findViewById(R.id.lives);
+        TextView marks = this.findViewById(R.id.marks);
+        firstnumber.setText("FIRST NUMBER");
+        secondnumber.setText("SECOND NUMBER");
+        tried.setText("your lives: 5");
+        marks.setText("your marks:");
+    }
+
+    private void displaygameover() {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("game over");
+        alertDialog.setMessage("your marks :"+totalmarks);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "play again",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
 
 
 }
